@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FlashQuant</title>
+<meta name="description" content="FlashQuant: timed mental-math drills with a real stats dashboard, weak-spot analysis and Killer mode.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="#/" aria-label="FlashQuant home">Flash<span>Quant</span></a>
+  <nav aria-label="Main">
+    <a href="#/" id="nav-play">Play</a>
+    <a href="#/stats" id="nav-stats">Stats</a>
+  </nav>
+</header>
+
+<main id="main">
+  <div id="banner" class="banner hide" role="status"></div>
+
+  <!-- Home: settings and start -->
+  <section id="v-home" class="view" aria-labelledby="h-home">
+    <h1 id="h-home" class="sr" tabindex="-1">Practice</h1>
+    <div id="trick" class="card trick"></div>
+
+    <form id="settings" class="card" autocomplete="off">
+      <h2>Practice settings</h2>
+
+      <div class="op-row">
+        <label class="chk"><input type="checkbox" id="op-a"> <span>Addition</span></label>
+        <div class="range">(<input type="number" id="a1" min="0" max="9999" inputmode="numeric" aria-label="Addition, first number, from"> to <input type="number" id="a2" min="0" max="9999" inputmode="numeric" aria-label="Addition, first number, to">) + (<input type="number" id="a3" min="0" max="9999" inputmode="numeric" aria-label="Addition, second number, from"> to <input type="number" id="a4" min="0" max="9999" inputmode="numeric" aria-label="Addition, second number, to">)</div>
+      </div>
+      <div class="op-row">
+        <label class="chk"><input type="checkbox" id="op-s"> <span>Subtraction</span></label>
+        <p class="hint">Addition problems in reverse. Uses the addition ranges.</p>
+      </div>
+      <div class="op-row">
+        <label class="chk"><input type="checkbox" id="op-m"> <span>Multiplication</span></label>
+        <div class="range">(<input type="number" id="m1" min="1" max="999" inputmode="numeric" aria-label="Multiplication, first number, from"> to <input type="number" id="m2" min="1" max="999" inputmode="numeric" aria-label="Multiplication, first number, to">) &times; (<input type="number" id="m3" min="1" max="9999" inputmode="numeric" aria-label="Multiplication, second number, from"> to <input type="number" id="m4" min="1" max="9999" inputmode="numeric" aria-label="Multiplication, second number, to">)</div>
+      </div>
+      <div class="op-row">
+        <label class="chk"><input type="checkbox" id="op-d"> <span>Division</span></label>
+        <p class="hint">Multiplication problems in reverse. The first multiplication number is the divisor.</p>
+      </div>
+      <div class="op-row">
+        <label for="dur"><b>Duration</b></label>
+        <select id="dur">
+          <option value="30">30 seconds</option>
+          <option value="60">60 seconds</option>
+          <option value="120">120 seconds</option>
+          <option value="300">300 seconds</option>
+          <option value="600">600 seconds</option>
+        </select>
+      </div>
+      <p id="adjusted" class="hint hide" role="status"></p>
+    </form>
+
+    <div class="actions">
+      <button type="button" id="btn-start" class="btn primary">Start</button>
+      <button type="button" id="btn-kill" class="btn">Killer mode</button>
+    </div>
+    <p id="kill-note" class="muted small"></p>
+    <p id="pb-line" class="muted"></p>
+  </section>
+
+  <!-- Game -->
+  <section id="v-game" class="view hide" aria-label="Round in progress">
+    <div class="gbar">
+      <div><span class="muted">Time</span> <b id="g-time">0</b></div>
+      <div><span class="muted">Score</span> <b id="g-score">0</b></div>
+      <div id="g-ghost" class="ghost"></div>
+      <button type="button" id="btn-abort" class="btn small">Quit round</button>
+    </div>
+    <div class="problem">
+      <span id="g-q" class="q"></span><span class="eq">=</span><input id="g-ans" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your answer">
+    </div>
+    <p class="center muted small">Type the answer and it submits itself. Press Esc to quit the round.</p>
+    <p class="center"><button type="button" id="btn-ghost" class="link"></button></p>
+  </section>
+
+  <!-- Result -->
+  <section id="v-result" class="view hide" aria-labelledby="h-result">
+    <h1 id="h-result" tabindex="-1">Time's up!</h1>
+    <div id="r-body" aria-live="polite"></div>
+    <div class="actions">
+      <button type="button" id="btn-again" class="btn primary">Play again</button>
+      <button type="button" id="btn-analyze" class="btn">Analyze</button>
+      <button type="button" id="btn-copy" class="btn">Copy score</button>
+      <button type="button" id="btn-back" class="btn">Back to settings</button>
+    </div>
+  </section>
+
+  <!-- Analysis -->
+  <section id="v-analysis" class="view hide" aria-label="Round analysis">
+    <div id="an-body"></div>
+    <div class="actions">
+      <button type="button" id="an-back" class="btn">Back to results</button>
+      <button type="button" id="an-again" class="btn primary">Play again</button>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section id="v-stats" class="view hide" aria-labelledby="h-stats">
+    <h1 id="h-stats" tabindex="-1">Stats</h1>
+    <div id="st-body"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  FlashQuant is an unofficial practice tool inspired by <a href="https://arithmetic.zetamac.com" target="_blank" rel="noopener">Zetamac</a> and is not affiliated with it. Your rounds and stats are saved only in this browser on this device. Nobody else can see them, and clearing your browser data erases them, so download a backup now and then.
+</footer>
+
+<script type="module" src="app.js"></script>
+<noscript><p class="banner">FlashQuant needs JavaScript to run.</p></noscript>
+</body>
+</html>

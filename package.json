@@ -1,0 +1,9 @@
+{
+  "name": "flashquant",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node core.test.js && node db.test.js && node engine.test.js"
+  }
+}
